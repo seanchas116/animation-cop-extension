@@ -22,8 +22,10 @@ chrome.runtime.onMessage.addListener((msg, sender, respond) => {
     case "stop": {
       if (cop) {
         cop.stop();
-        const elems = formatElements(Array.from(cop.animatedElems));
-        respond(elems);
+        const elems = Array.from(cop.animatedElems);
+        respond(formatElements(elems));
+        console.info("Animation Cop found animated elements:");
+        console.info(elems);
         cop = null;
       }
       break;
