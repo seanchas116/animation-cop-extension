@@ -15,9 +15,9 @@ async function sendMessage(msg, callback) {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  const $startButton = $("#button-start");
-  const $stopButton = $("#button-stop");
+  const $button = $("#button");
   const $resultArea = $("#result");
+  let detecting = false;
 
   function startDetecting() {
     sendMessage("start");
@@ -27,15 +27,29 @@ document.addEventListener("DOMContentLoaded", () => {
     sendMessage("stop", updateResult);
   }
 
-  function updateResult(elems) {
-    $resultArea.empty();
-    for (const elem of elems) {
-      $resultArea.append($(`<li>${elem}</li>`));
+  function toggleDetecting() {
+    detecting = !detecting;
+    if (detecting) {
+      $button.text("Stop");
+      startDetecting();
+    } else {
+      $button.text("Start");
+      stopDetecting();
     }
   }
 
-  $startButton.on("click", startDetecting);
-  $stopButton.on("click", stopDetecting);
+  function updateResult(elems) {
+    $resultArea.empty();
+    for (const elem of elems) {
+      var $elem = $("<li></li>").text(elem);
+      $resultArea.append($elem);
+    }
+    if (elems.length === 0) {
+      $resultArea.append($("<li>No animated elements found.</li>"))
+    }
+  }
+
+  $button.on("click", toggleDetecting);
 
   chrome.runtime.onMessage.addListener(elems => {
     updateResult(elems);
