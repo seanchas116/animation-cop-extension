@@ -1,0 +1,18 @@
+{
+  "name": "Animation Cop",
+  "description": "Detect animated elements",
+  "version": "0.1",
+  "permissions": [
+    "tabs", "http://*/*", "https://*/*"
+  ],
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [ {
+    "matches": ["http://*/*", "https://*/*"],
+    "js": ["dist/content.js"],
+    "all_frames": true
+  }],
+  "manifest_version": 2
+}
